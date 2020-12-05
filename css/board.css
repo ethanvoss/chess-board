@@ -1,6 +1,7 @@
 .square {
 			float: left;
 		}
+
 .piece {
 			float: left;
 			position: absolute;

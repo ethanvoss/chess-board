@@ -5,20 +5,19 @@ var b;
 class Board
 {
 	//---Construct---//
-	constructor(width, size)
+	constructor(width, startingFen, size)
 	{
 		this.width = width || 400;
 		this.size = size || 8;
+		this.startingFen = startingFen || 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
 		this.board = document.getElementById('board');
 		this.position = [];
 		this.squares = [];
 		this.board.style.width = this.width + 'px';
 		this.board.style.height = this.board.style.width;
 		b = this;
-	}
-	//---Generates Board---///
-	createboard()
-	{
+		//---Generates Board---///
+		
 		var color = 0;
 		var squareSize = this.width / this.size;
 		for(var x = 0; x < this.size; x++)
@@ -43,14 +42,12 @@ class Board
 				color++;
 			}
 		}
-	}
-	//---Generates Position---//
-	setPosition(fenIn)
-	{
-		fenIn = fenIn.split('/');
-		for(var r in fenIn)
+
+		//---Generate Postion---//
+		this.startingFen = this.startingFen.split('/');
+		for(var r in this.startingFen)
 		{
-			var row = fenIn[r].split('');
+			var row = this.startingFen[r].split('');
 			var rowOut = [];
 			for(var c in row)
 			{
@@ -79,10 +76,8 @@ class Board
 			}
 			this.position.push(rowOut);
 		}
-	}
-	//---Displays Pieces---//
-	displayPieces()
-	{
+
+		//---Display the pieces---//
 		for(var r in this.position)
 		{
 			var row = this.position[r];
@@ -122,6 +117,7 @@ class Board
 			dragElement(piece);
 
 		}
+		
 	}
 
 	move(move)
@@ -140,13 +136,7 @@ class Board
 		piece.remove();
 		newSquare.appendChild(piece);
 	}
-	init()
-	{
-		//---Does all the things---//
-		this.createboard();
-		this.setPosition('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
-		this.displayPieces();
-	}
+
 
 }
 
@@ -232,3 +222,4 @@ function dragElement(elmnt) {
     b.position[oldPos.split('')[1]][oldPos.split('')[0]] = '0';
   }
 }
+
