@@ -147,6 +147,7 @@ const boardMove = new Event('boardMove');
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   elmnt.onmousedown = dragMouseDown;
+  elmnt.touchstart = dragMouseDown;
   var scale = elmnt.style.width;  
 
   function dragMouseDown(e) {
@@ -155,9 +156,11 @@ function dragElement(elmnt) {
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
+    elmnt.onmouseup = closeDragElement;
+    elmnt.touchend = closeDragElement;
     // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
+    elmnt.onmousemove = elementDrag;
+    elmnt.touchmove = elementDrag;
   }
 
   function elementDrag(e) {
@@ -175,9 +178,10 @@ function dragElement(elmnt) {
 
   function closeDragElement() {
 	/* stop moving when mouse button is released: */
-    document.onmouseup = null;
-    document.onmousemove = null;
-  
+    elmnt.onmouseup = null;
+    elmnt.onmousemove = null;
+  	elmnt.touchend = null;
+  	elmnt.touchmove = null;
     //--Snap to square--//
     var dist = '0';
     var targeted;
@@ -216,7 +220,7 @@ function dragElement(elmnt) {
 	boardMove.move = move;
 	boardMove.oldPos = oldPos;
 	boardMove.newPos = newPos;
-    document.dispatchEvent(boardMove);
+    elmnt.dispatchEvent(boardMove);
     //update position
     b.position[newPos.split('')[1]][newPos.split('')[0]] = b.position[oldPos.split('')[1]][oldPos.split('')[0]];
     b.position[oldPos.split('')[1]][oldPos.split('')[0]] = '0';
