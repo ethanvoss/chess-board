@@ -3,17 +3,10 @@
 <head> 
     <meta charset="UTF-8"> 
     <title>Page title</title> 
-    <!--<link rel="stylesheet" href="css/style.css">-->
+    <link rel="stylesheet" href="css/board.css">
+	<script src='scripts/board.js'></script>
 	<style>
-		.square {
-			float: left;
-		}
-		.piece {
-			float: left;
-			position: absolute;
-			margin-left: auto;
-			margin-right: auto;
-		}
+
 		
 
 	</style>
@@ -22,8 +15,10 @@
 	<div id='board'>
 	</div>
 
-
-	<script src='scripts/board.js'></script>
+	<script>
+		var board = new Board(400);
+		board.init();
+	</script>
 </body>
 
 </html> 
