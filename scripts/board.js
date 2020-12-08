@@ -1,6 +1,7 @@
 const pieces = ['K','Q','R','B','N','P'];
 const collumConvert = ['a','b','c','d','e','f','g','h'];
 const rowConvert = ['8','7','6','5','4','3','2','1'];
+const rowFlipper = ['7','6','5','4','3','2','1','0'];
 const doc = document.documentElement;
 class Board
 {
@@ -24,31 +25,62 @@ class Board
 		doc.style.setProperty('--square-size', squareSize + "px");
 		var darkColor = initObj.darkColor || "#1e4a66";
 		var lightColor = initObj.lightColor || "#fcfcfc";
-		for(var x = 0; x < this.size; x++)
+
+		if(initObj.oritentation == 'black')
 		{
-			for(var y = 0; y < this.size; y++)
+			for(var x = this.size - 1; x >= 0; x--)
 			{
-				if(y == 0) color++;
+				for(var y = this.size - 1; y >= 0; y--)
+				{
+					if(y == this.size - 1) color++;
 
-				var backgroundColor;
-				if(color % 2 == 0) backgroundColor = darkColor;
-				else backgroundColor = lightColor;
+					var backgroundColor;
+					if(color % 2 == 0) backgroundColor = darkColor;
+					else backgroundColor = lightColor;
 
-				const square = document.createElement('div');
+					const square = document.createElement('div');
 
-				square.setAttribute('class', 'square');
-				square.style.background = backgroundColor;
-				if(x == 7) square.style.display = "inline";
+					square.setAttribute('class', 'square');
+					square.style.background = backgroundColor;
+					//if(x == 7) square.style.display = "inline";
+					const id = y.toString() + x.toString();
+					square.setAttribute('id', id);
 
-				const id = y.toString() + x.toString();
-				square.setAttribute('id', id);
+					this.squares.push(square);
+					this.board.appendChild(square);
 
-				this.squares.push(square);
-				this.board.appendChild(square);
-
-				color++;
+					color++;
+				}
 			}
 		}
+		else
+		{
+			for(var x = 0; x < this.size; x++)
+			{
+				for(var y = 0; y < this.size; y++)
+				{
+					if(y == 0) color++;
+
+					var backgroundColor;
+					if(color % 2 == 0) backgroundColor = darkColor;
+					else backgroundColor = lightColor;
+
+					const square = document.createElement('div');
+
+					square.setAttribute('class', 'square');
+					square.style.background = backgroundColor;
+					if(x == this.size - 1) square.style.display = "inline";
+					const id = y.toString() + x.toString();
+					square.setAttribute('id', id);
+
+					this.squares.push(square);
+					this.board.appendChild(square);
+
+					color++;
+				}
+			}
+		}
+		
 
 		//---Generate Postion---//
 		this.startingFen = this.startingFen.split('/');
