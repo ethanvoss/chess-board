@@ -15,9 +15,10 @@
 <body> 
 	<div id='board'>
 	</div>
-
+	<button onclick='board.move("e2-e7")'>capture test</button>
 	<script>
-		var board = new Board(400);
+		var board = new Board({width: 800});
+		console.log(board.position);
 	</script>
 </body>
 
